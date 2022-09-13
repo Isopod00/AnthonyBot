@@ -58,9 +58,6 @@ async def on_message(message):
         embed.add_field(name='!hello', value="AnthonyBot will respond by saying hello!", inline=False)
         embed.add_field(name='!bye', value="AnthonyBot will respond by saying goodbye!", inline=False)
         embed.add_field(name='!sunchip', value="Sends an image of a random sunchip flavor", inline=False)
-        embed.add_field(name='!assassinate {person}',
-                        value="This command 'initiates an assassination request' for the specified person 😂",
-                        inline=False)
         embed.add_field(name='!choose', value="Selects a random server member and pings them!", inline=False)
         embed.add_field(name='!selfdestruct', value="This command 'initiates the self destruct sequence' 😂",
                         inline=False)
@@ -76,9 +73,6 @@ async def on_message(message):
     elif message.content.startswith("!sunchip"):  # SunChip Command #
         choice = random.randint(1, 5)
         await message.channel.send(file=discord.File(f"SunchipImages/sunchips{choice}.png"))
-    elif message.content.startswith("!assassinate"):  # Assassinate Command #
-        target = str(message.content).split('assassinate ')[1]
-        await message.channel.send(f'Initiating an Assassination Request for {target}! ☠️')
     elif message.content.startswith("!choose"):  # Choose Command #
         random_member = random.choice(message.channel.guild.members)
         await message.channel.send(f'{random_member.mention}, I choose you!')
