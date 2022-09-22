@@ -84,6 +84,8 @@ async def on_message(message):
         embed.add_field(name='!help', value="Produces a list of possible commands", inline=False)
         embed.add_field(name='!hello', value="AnthonyBot will respond by saying hello!", inline=False)
         embed.add_field(name='!bye', value="AnthonyBot will respond by saying goodbye!", inline=False)
+        embed.add_field(name='!stats', value="Displays how many messages the user has sent in this server", inline=False)
+        embed.add_field(name='!rankings', value="Displays the current message count rankings for this server", inline=False)
         embed.add_field(name='!sunchip', value="Sends an image of a random sunchip flavor", inline=False)
         embed.add_field(name='!choose', value="Selects a random server member and pings them!", inline=False)
         embed.add_field(name='!selfdestruct', value="This command 'initiates the self destruct sequence' 😂",
@@ -95,6 +97,10 @@ async def on_message(message):
         await message.channel.send(embed=embed)
     elif message.content.startswith("!stats"):
         await message.channel.send(f'{username} has sent a total of {total_messages[guild][username]} messages')
+    elif message.content.startswith("!rankings"):
+        rankings = sorted(total_messages[guild].items(), key=lambda x:x[1])
+        for rank in range(len(rankings)):
+            await message.channel.send(f'#{rank + 1}: {rankings[len(rankings) - 1 - rank]}')
     elif message.content.startswith("!hello"):  # Hello Command #
         await message.channel.send(f'Hello {username}!')
     elif message.content.startswith("!bye"):  # Bye Command #
@@ -157,7 +163,7 @@ async def on_message(message):
         while iteration < len(message_parts):
             letter = alphabet[iteration - 2]
             embed.add_field(name=f"{letter}) {message_parts[iteration][:-1]}",
-                            value=f"vote for this option by reacting with {letter}", inline=False)
+                            value=f"Vote for this option by reacting with {letter}", inline=False)
             iteration += 1
         embed.set_footer(text=f"Requested by {message.author.name}")
         embed_message = await message.channel.send(embed=embed)
