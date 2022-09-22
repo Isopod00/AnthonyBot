@@ -3,6 +3,7 @@ import discord
 import itertools
 import random
 import requests
+import pickle
 
 from discord.ext import tasks
 from discord.ext import commands
@@ -30,6 +31,22 @@ emojis = ["\N{REGIONAL INDICATOR SYMBOL LETTER A}", "\N{REGIONAL INDICATOR SYMBO
           "\N{REGIONAL INDICATOR SYMBOL LETTER S}", "\N{REGIONAL INDICATOR SYMBOL LETTER T}"]
 
 
+# Save an object to a local file using the pickle module
+def save_data(data, filename):
+    with open(filename, "wb") as f:
+        pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
+
+
+# Load a locally saved object using the pickle module
+def load_object(filename):
+    with open(filename, "rb") as f:
+        return pickle.load(f)
+
+
+# Keep track of how many messages everyone has sent
+total_messages = load_object("data.pickle")
+
+
 # Display a confirmation message when the bot is ready
 @bot.event
 async def on_ready():
@@ -52,6 +69,12 @@ async def on_message(message):
     if message.author == bot.user:
         return
 
+    if username in total_messages:
+        total_messages[username] += 1
+    else:
+        total_messages[username] = 1
+    save_data(total_messages, "data.pickle")
+
     if message.content.startswith("!help"):  # Help Command #
         embed = discord.Embed(title=f"List of Possible Commands:", color=0x7289DA, timestamp=message.created_at)
         embed.add_field(name='!help', value="Produces a list of possible commands", inline=False)
@@ -66,6 +89,8 @@ async def on_message(message):
                         value="Creates a poll with the specified question and answer choices", inline=False)
         embed.set_footer(text=f"Requested by {message.author.name}")
         await message.channel.send(embed=embed)
+    elif message.content.startswith("!stats"):
+        await message.channel.send(f'{username} has sent a total of {total_messages[username]} messages')
     elif message.content.startswith("!hello"):  # Hello Command #
         await message.channel.send(f'Hello {username}!')
     elif message.content.startswith("!bye"):  # Bye Command #
