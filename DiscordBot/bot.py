@@ -88,7 +88,6 @@ async def on_message(message):
         response = requests.get(complete_url)  # Request the weather data from the full url
         x = response.json()  # Save the json response as variable 'x'
         if x["cod"] != "404":
-            print(x)
             y = x["main"]
             current_temperature = y["temp"]
             current_temperature_fahrenheit = str(round((current_temperature - 273.15) * 1.8 + 32))
