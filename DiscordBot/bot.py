@@ -10,7 +10,7 @@ from discord.ext import commands
 import keep_alive
 import secrets
 
-intents = discord.Intents.default()  # Declare default intents
+intents = discord.Intents.all()  # Declare all intents
 intents.members = True  # Allow the bot to view server members
 bot = commands.Bot(command_prefix='', intents=intents)  # Create an instance of the discord client
 
