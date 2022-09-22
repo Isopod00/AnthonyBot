@@ -64,15 +64,19 @@ async def change_status():
 @bot.event
 async def on_message(message):
     username = str(message.author).split("#")[0]  # Extract the author's username from the message
+    guild = message.guild.name
 
     # If the message in question was sent by this bot, ignore the message
     if message.author == bot.user:
         return
 
-    if username in total_messages:
-        total_messages[username] += 1
+    if guild not in total_messages:
+        total_messages[guild] = {}
+
+    if username in total_messages[guild]:
+        total_messages[guild][username] += 1
     else:
-        total_messages[username] = 1
+        total_messages[guild][username] = 1
     save_data(total_messages, "data.pickle")
 
     if message.content.startswith("!help"):  # Help Command #
@@ -90,7 +94,7 @@ async def on_message(message):
         embed.set_footer(text=f"Requested by {message.author.name}")
         await message.channel.send(embed=embed)
     elif message.content.startswith("!stats"):
-        await message.channel.send(f'{username} has sent a total of {total_messages[username]} messages')
+        await message.channel.send(f'{username} has sent a total of {total_messages[guild][username]} messages')
     elif message.content.startswith("!hello"):  # Hello Command #
         await message.channel.send(f'Hello {username}!')
     elif message.content.startswith("!bye"):  # Bye Command #
