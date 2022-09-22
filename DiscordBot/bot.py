@@ -15,7 +15,7 @@ intents.members = True  # Allow the bot to view server members
 bot = commands.Bot(command_prefix='', intents=intents)  # Create an instance of the discord client
 
 # These are the different options for the bot status
-status = itertools.cycle(['with Python 🐍', 'with sun chips ☀️', 'with my food 😋', 'with Java ☕', 'with robots 🤖'])
+status = itertools.cycle(['with Python 🐍', 'League 😎', 'with my food 😋', 'with Java ☕', 'with robots 🤖'])
 
 # List of emojis to be used for the !poll command
 emojis = ["\N{REGIONAL INDICATOR SYMBOL LETTER A}", "\N{REGIONAL INDICATOR SYMBOL LETTER B}",
@@ -30,7 +30,7 @@ emojis = ["\N{REGIONAL INDICATOR SYMBOL LETTER A}", "\N{REGIONAL INDICATOR SYMBO
           "\N{REGIONAL INDICATOR SYMBOL LETTER S}", "\N{REGIONAL INDICATOR SYMBOL LETTER T}"]
 
 
-# Display a confirmation message when bot is ready
+# Display a confirmation message when the bot is ready
 @bot.event
 async def on_ready():
     change_status.start()
