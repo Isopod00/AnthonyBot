@@ -64,7 +64,7 @@ async def change_status():
 @bot.event
 async def on_message(message):
     username = str(message.author).split("#")[0]  # Extract the author's username from the message
-    guild = message.guild.name
+    guild = message.guild.id
 
     # If the message in question was sent by this bot, ignore the message
     if message.author == bot.user:
